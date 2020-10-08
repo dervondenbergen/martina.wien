@@ -16,7 +16,18 @@ $params = [
 
 $url = $host . $endpoint . '?' . http_build_query($params);
 
-$links_response = file_get_contents($url);
+function curlGet($url) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return $response;
+}
+
+$links_response = curlGet($url);
+
+//$links_response = file_get_contents($url);
 $links_response = json_decode($links_response, true);
 
 $links = [];
