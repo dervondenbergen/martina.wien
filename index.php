@@ -22,6 +22,13 @@ $links = json_decode(file_get_contents('data.json'), true);
     <!-- <img class="me" src="assets/me-smaller.jpg" alt="Portrait von Mir"/> -->
     <img class="me" src="https://res.cloudinary.com/dvdb/image/upload/c_fill,h_600,q_auto:best,w_600,f_auto/me-smaller.jpg" alt="Portrait von Mir"/>
     <h1>mar·ti·na</h1>
+    <div class="socials">
+      <a href="https://www.instagram.com/tini95/"><img src="assets/instagram.png" alt=""></a>
+      <a href="https://www.twitter.com/tini95/"><img src="assets/twitter.png" alt=""></a>
+      <a href="https://www.youtube.com/channel/UCjG8pNnLA2sCadPktkVpzYQ"><img src="assets/youtube.png" alt=""></a>
+      <a href="https://www.twitch.tv/mar_ti_na_/"><img src="assets/twitch.png" alt=""></a>
+      <a href="https://www.linkedin.com/in/martinaschuster"><img src="assets/linkedin.png" alt=""></a>
+    </div>
     <ul>
       <?php foreach($links as $link): ?>
         <li>

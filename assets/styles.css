@@ -38,6 +38,7 @@ h1 {
   font-size: 4rem;
   color: #333333;
   margin: 2rem;
+  margin-bottom: 0;
 }
 
 .me {
@@ -45,6 +46,18 @@ h1 {
   object-fit: cover;
   border-radius: 50%;
   max-width: 100%;
+}
+
+.socials {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  width: 100%;
+}
+
+.socials img {
+  height: 40px;
+  width: auto;
 }
 
 ul {
