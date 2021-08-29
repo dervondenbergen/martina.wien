@@ -5,13 +5,17 @@ $t = $config['trello'];
 
 $host = 'https://api.trello.com';
 $endpoint = '/1/lists/' . $t['list'] . '/cards';
+
+$key = $t['key'];
+$token = $t['token'];
+
 $params = [
   'fields' => 'name',
   'customFieldItems' => true,
   'attachments' => true,
-  'attachment_fields' => 'url',
-  'key' => $t['key'],
-  'token' => $t['token']
+  'attachment_fields' => 'url,fileName',
+  'key' => $key,
+  'token' => $token
 ];
 
 $url = $host . $endpoint . '?' . http_build_query($params);
@@ -23,6 +27,23 @@ function curlGet($url) {
     $response = curl_exec($ch);
     curl_close($ch);
     return $response;
+}
+
+function curlImage($imageUrl) {
+  global $key;
+  global $token;
+
+  $cdi = curl_init();
+  curl_setopt($cdi, CURLOPT_URL, $imageUrl);
+  curl_setopt($cdi, CURLOPT_CUSTOMREQUEST, 'GET');
+  curl_setopt($cdi, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($cdi, CURLOPT_HTTPHEADER, [
+    'Authorization: OAuth oauth_consumer_key="'.$key.'", oauth_token="'.$token.'"',
+  ]);
+
+  $response = curl_exec($cdi);
+  curl_close($cdi);
+  return $response;
 }
 
 $links_response = curlGet($url);
@@ -38,7 +59,19 @@ foreach ($links_response as $link_r) {
   ];
 
   if (count($attachments = $link_r['attachments'])) {
-    $link['image'] = $link_r['attachments'][0]['url'];
+    $file = $link_r['attachments'][0];
+
+    $originalUrl = $file['url'];
+    $originalName = $file['fileName'];
+
+    if (
+      file_put_contents(
+        "files/$originalName",
+        curlImage($originalUrl)
+      )
+    ) {
+      $link['image'] = "https://martina.wien/files/$originalName";
+    }
   }
 
   if (count($customFieldItems = $link_r['customFieldItems'])) {
